@@ -73,16 +73,19 @@ class App extends React.Component {
   state = {
     pessoas: [
       {
+        id: 1,
         nomeUsuario: "Paulinha",
         fotoUsuario: "https://picsum.photos/50/50",
         fotoPost: "https://picsum.photos/200/150",
       },
       {
+        id: 2,
         nomeUsuario: "Chijo",
         fotoUsuario: "https://picsum.photos/200",
         fotoPost: "https://picsum.photos/200/151",
       },
       {
+        id: 3,
         nomeUsuario: "Indio",
         fotoUsuario: "https://picsum.photos/50",
         fotoPost: "https://picsum.photos/200/300",
@@ -93,15 +96,19 @@ class App extends React.Component {
     fotoUsuario: "",
     fotoPost: "",
   };
-
+  
+  componentDidUpdate(){
+    console.log(this.state.pessoas);
+  }
   adicionaPessoa = () => {
 
-    if(this.state.nomeUsuario == '' || this.state.fotoUsuario == '' || this.state.fotoPost == ''){
+    if(this.state.nomeUsuario === '' || this.state.fotoUsuario === '' || this.state.fotoPost === ''){
       alert('Preencha Os Campos Corretamente !');
       return;
     }
 
     const novaPessoa = {
+      id: Date.now(),
       nomeUsuario: this.state.nomeUsuario,
       fotoUsuario: this.state.fotoUsuario,
       fotoPost: this.state.fotoPost,
@@ -127,11 +134,31 @@ class App extends React.Component {
     this.setState({ fotoPost: event.target.value });
   };
 
+  exluirPost = (id, nome) => {
+    if(!alert(`Quer Mesmo Deletar o Post De ${nome} ?`)){
+
+    const novaLista = this.state.pessoas.filter((item) => {
+      
+      if (item.id === id){
+        return false
+      }else{
+        return true
+      }
+    })
+     this.setState({pessoas: novaLista});
+    }else{
+      return ;
+    }
+   
+  };
+
+
   render() {
     const NovoPost = this.state.pessoas.map((pessoa) => {
 
       return (
         <Post
+          identificador={() => this.exluirPost(pessoa.id, pessoa.nomeUsuario)}
           nomeUsuario={pessoa.nomeUsuario}
           fotoUsuario={pessoa.fotoUsuario}
           fotoPost={pessoa.fotoPost}
@@ -157,14 +184,14 @@ class App extends React.Component {
             />
             Sua Foto:
             <input
-              type="text"
+              type="url"
               value={this.state.fotoUsuario}
               onChange={this.onChangeUser}
               placeholder={"Link Da Imagem"}
             />
             Foto do Post:
             <input
-              type="text"
+              type="url"
               value={this.state.fotoPost}
               onChange={this.onChangePost}
               placeholder={"Link Da Imagem"}

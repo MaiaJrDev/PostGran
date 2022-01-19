@@ -6,6 +6,7 @@ import iconeCoracaoPreto from "../../img/favorite.svg";
 import iconeFavoritoOn from "../../img/favOn.png";
 import iconeFavoritoOf from "../../img/favOf.png";
 import iconeCompartilhar from "../../img/compartilhar.png";
+import iconeExcluir from "../../img/x.png";
 import iconeComentario from "../../img/comment_icon.svg";
 import { SecaoComentario } from "../SecaoComentario/SecaoComentario";
 import { SecaoCompart } from "../SecaoCompartilhar/SecaoCompartilhar";
@@ -22,6 +23,7 @@ const PostContainer = styled.div`
 const PostHeader = styled.div`
   height: 40px;
   display: flex;
+  /* justify-content: space-between; */
   align-items: center;
   padding-left: 10px;
 `;
@@ -44,6 +46,17 @@ const UserPhoto = styled.img`
 const PostPhoto = styled.img`
   width: 100%;
   height: 250px;
+`;
+
+const IconeExcluir = styled.div`
+ display: flex;
+ justify-content: end;
+ padding-right: 5px;
+ width: 100%;
+
+ img{
+   width: 15%;
+ }
 `;
 
 class Post extends React.Component {
@@ -89,6 +102,7 @@ class Post extends React.Component {
     });
   };
 
+
   render() {
     if (this.state.curtido) {
       this.state.numeroCurtidas = 1;
@@ -130,8 +144,13 @@ class Post extends React.Component {
       <>
         <PostContainer>
           <PostHeader>
+            <>
             <UserPhoto src={this.props.fotoUsuario} alt={"Imagem do usuario"} />
             <p>{this.props.nomeUsuario}</p>
+            </>
+            <IconeExcluir>
+            <img src={iconeExcluir} onClick={this.props.identificador}/>
+            </IconeExcluir>
           </PostHeader>
 
           <PostPhoto src={this.props.fotoPost} alt={"Imagem do post"} />
